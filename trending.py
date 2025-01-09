@@ -14,7 +14,7 @@ import chromedriver_autoinstaller
 
 # Twitter credentials
 TWITTER_USERNAME = "jdager1004"
-TWITTER_PASSWORD = "9876@zyxA"
+TWITTER_PASSWORD = "**********"
 
 app = Flask(__name__)
 
