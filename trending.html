@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twitter Trends</title>
+    <link rel="stylesheet" href="trending.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Twitter Trending Topics</h1>
+        <button onclick="fetchTrends()">Get Trends</button>
+        <div class="results" id="results">
+            <!-- Results will be displayed here -->
+        </div>
+    </div>
+    <script>
+        async function fetchTrends() {
+            const resultsDiv = document.getElementById("results");
+            resultsDiv.innerHTML = "Loading...";
+            try {
+                const response = await fetch("/fetch-trends", { method: "GET" });
+                const data = await response.json();
+
+                if (data.error) {
+                    resultsDiv.innerHTML = `<p style="color: red;">Error: ${data.error}</p>`;
+                } else {
+                    const { unique_id, trend1, trend2, trend3, trend4, trend5, end_time, ip_address } = data;
+                    resultsDiv.innerHTML = `
+                        <h3>Results:</h3>
+                        <ul>
+                            <li><strong>Unique ID:</strong> ${unique_id}</li>
+                            <li><strong>Trend 1:</strong> ${trend1 || "N/A"}</li>
+                            <li><strong>Trend 2:</strong> ${trend2 || "N/A"}</li>
+                            <li><strong>Trend 3:</strong> ${trend3 || "N/A"}</li>
+                            <li><strong>Trend 4:</strong> ${trend4 || "N/A"}</li>
+                            <li><strong>Trend 5:</strong> ${trend5 || "N/A"}</li>
+                            <li><strong>End Time:</strong> ${end_time}</li>
+                            <li><strong>IP Address:</strong> ${ip_address}</li>
+                        </ul>
+                    `;
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = `<p style="color: red;">Error fetching trends: ${error.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>
